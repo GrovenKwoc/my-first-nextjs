@@ -9,7 +9,7 @@ export default function Page() {
     <main className="flex min-h-screen flex-col p-6">
       <div className="relative flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
         <AcmeLogo />
-      <div  className='absolute left-56 bottom-10'>
+      <div  className='absolute left-56 bottom-5'>
       <Link href="/dashboard"><span>前往控制台</span></Link>
       </div>
       </div>
