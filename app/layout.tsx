@@ -5,11 +5,10 @@ import { Metadata } from 'next';
  
 export const metadata: Metadata = {
   title: {
-    template: '%s | Acme Dashboard',
-    default: 'Acme Dashboard',
+    template: '%s | G.W.O ☢ 禁乐园',
+    default: 'G.W.O ☢ 禁乐园',
   },
-  description: 'The official Next.js Learn Dashboard built with App Router.',
-  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+  description: '全Soul最强的禁乐园，欢迎广大Soul粉丝来禁！'
 };
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-import AcmeLogo from '@/app/ui/acme-logo';
+import GwoLogo from '@/app/ui/gwo-logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import Link from 'next/link';
@@ -6,22 +6,30 @@ import Image from 'next/image';
 
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
-        <AcmeLogo />
-      <Link href="/dashboard"><span>前往控制台</span></Link>
+    <main className="text-1xl flex min-h-screen flex-col bg-yellow-300 p-4 font-bold text-yellow-300">
+      {/* 顶部导航栏 */}
+      <div className="flex h-20  shrink-0 items-end justify-around rounded-lg bg-blue-500 p-4 md:h-52">
+        <GwoLogo />
+        <Link href="/dashboard">&#128286; 企业记账系统</Link>
+        <Link href="/tailwindcss-playground">&#128293; TailwindCSS学习</Link>
+        <Link href="/aibots">
+          <span className="text-red-500">&#128488;</span> AI学习研究
+        </Link>
+        <Link href="/material-development">&#128520; IT教育资料开发</Link>
       </div>
+
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-          <div className="h-0 w-0 border-b-[30px] border-l-[20px] border-r-[20px] border-b-black border-l-transparent border-r-transparent" />
+        <div className="flex flex-col justify-center gap-6 rounded-lg bg-yellow-100 px-6 py-10 md:w-2/5 md:px-20">
+          <div className="h-0 w-0 border-b-[20px] border-l-[10px] border-r-[10px] border-b-blue-500 border-l-transparent border-r-transparent" />
           <p
-            className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
+            className={`${lusitana.className} text-xl text-blue-500 md:text-3xl md:leading-normal`}
           >
-            <strong>Welcome to Acme.</strong> This is the example for the{' '}
+            <strong>欢迎来到G.W.O专为Soul友们提供的吐槽圣地。</strong>
+            <br />
+            这里不用怕被河蟹，不用怕被封禁，是真正意义的
             <a href="https://nextjs.org/learn/" className="text-blue-500">
-              Next.js Learn Course
+              &#34;圣地 伊甸园 神殿 神社 寺庙 神坛&#34;
             </a>
-            , brought to you by Vercel.
           </p>
           <Link
             href="/login"
@@ -44,7 +52,7 @@ export default function Page() {
             src="/hero-mobile.png"
             width={560}
             height={620}
-            className="md:hidden block"
+            className="block md:hidden"
             alt="Screenshots of the dashboard project showing mobile version"
           />
         </div>
