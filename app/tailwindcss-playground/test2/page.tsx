@@ -1,5 +1,5 @@
 import {List} from '@/app/tailwindcss-playground/components/list';
-export default function Page() {
+export default async function Page() {
   return (
     <>
       <List/>
