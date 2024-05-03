@@ -24,7 +24,7 @@ async function fetchPets() {
 
 export async function List() {
   const res = await fetchPets(
-    'http://127.0.0.1:4523/m1/4277651-3919651-default/pets',
+    'https://mock.apifox.com/m1/4277651-3919651-default/pets',
   );
 
   return (
