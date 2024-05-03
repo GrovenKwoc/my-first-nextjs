@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 export async function fetchPets() {
-  const response = await fetch('http://127.0.0.1:4523/m1/4277651-3919651-default/pets', {
+  const response = await fetch('https://mock.apifox.com/m1/4277651-3919651-default/pets', {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'same-origin', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
