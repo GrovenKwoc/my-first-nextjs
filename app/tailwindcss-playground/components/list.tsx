@@ -28,17 +28,39 @@ export async function List() {
   );
 
   return (
-    <main className="grid grid-cols-4 gap-4">
-      {res.data.map((pet) => pet?(
-        <div key={pet.id}>
-          <p>{pet.name}</p>
-          <p>category</p>
-          <p>{pet.name}</p>
-          <Image src={pet.photoUrls[0]} alt="dog" width={100} height={100} />
-          <p>tags</p>
-          <p>status:{pet.status}</p>
-        </div>
-      ):pet)}
+    <main className="grid grid-cols-4 grid-rows-4 gap-2">
+      {res.data.map((pet) => {
+        if (pet) {
+          const picUrl = pet.photoUrls[0];
+          const widthIdx = picUrl.lastIndexOf('/');
+          const heightIdx = picUrl.lastIndexOf('x');
+          const width = picUrl.substring(widthIdx + 1, heightIdx);
+          const height = picUrl.substring(heightIdx + 1);
+          return (
+            <div
+              key={pet.id}
+              className="divide-y
+              rounded-lg bg-gray-200 p-4
+              hover:p-2 hover:ring-inset hover:ring-2 hover:ring-green-200" 
+            >
+              <Image
+                className="h-52 w-52 object-contain"
+                src={picUrl}
+                alt="dog"
+                width={width}
+                height={height}
+              />
+              <p>{pet.id}</p>
+              <p>category</p>
+              <p>{pet.name}</p>
+              <p>tags</p>
+              <p>status:{pet.status}</p>
+            </div>
+          );
+        } else {
+          return;
+        }
+      })}
     </main>
   );
 }
