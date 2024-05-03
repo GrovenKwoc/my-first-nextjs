@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
-async function fetchPets(url) {
-  const response = await fetch(url, {
+export async function fetchPets() {
+  const response = await fetch('http://127.0.0.1:4523/m1/4277651-3919651-default/pets', {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'same-origin', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -23,10 +23,8 @@ async function fetchPets(url) {
 }
 
 export async function List() {
-  const res = await fetchPets(
-    'https://mock.apifox.com/m1/4277651-3919651-default/pets',
-  );
 
+  const res = await fetchPets();
   return (
     <main className="grid grid-cols-4 gap-4">
       {res.data.map((pet) => {
