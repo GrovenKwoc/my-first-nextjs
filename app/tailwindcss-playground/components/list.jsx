@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-async function fetchPets(url: string) {
+async function fetchPets() {
   const response = await fetch(url, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'same-origin', // no-cors, *cors, same-origin
@@ -28,7 +28,7 @@ export async function List() {
   );
 
   return (
-    <main className="grid grid-cols-4 grid-rows-4 gap-2">
+    <main className="grid grid-cols-4 gap-4">
       {res.data.map((pet) => {
         if (pet) {
           const picUrl = pet.photoUrls[0];
@@ -39,19 +39,21 @@ export async function List() {
           return (
             <div
               key={pet.id}
-              className="divide-y
-              rounded-lg bg-gray-200 p-4
-              hover:p-2 hover:ring-inset hover:ring-2 hover:ring-green-200" 
+              className="divide-gray-100 hover:divide-y  rounded-lg bg-gray-200
+              p-4 shadow-inner shadow-gray-500/70
+              hover:p-2 hover:shadow-xl hover:shadow-slate-100"
             >
-              <Image
-                className="h-52 w-52 object-contain"
-                src={picUrl}
-                alt="dog"
-                width={width}
-                height={height}
-              />
-              <p>{pet.id}</p>
-              <p>category</p>
+              <div className="blur-sm hover:blur-none">
+                <Image
+                  className="h-52 w-52 object-contain"
+                  src={picUrl}
+                  alt="dog"
+                  width={width}
+                  height={height}
+                />
+                <p>{pet.id}</p>
+                <p>category</p>
+              </div>
               <p>{pet.name}</p>
               <p>tags</p>
               <p>status:{pet.status}</p>
