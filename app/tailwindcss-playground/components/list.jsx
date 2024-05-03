@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-async function fetchPets() {
+async function fetchPets(url) {
   const response = await fetch(url, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'same-origin', // no-cors, *cors, same-origin
