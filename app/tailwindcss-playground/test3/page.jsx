@@ -13,16 +13,34 @@ export default function Page() {
       </button>
 
       <button className="flex flex-row bg-indigo-500 p-4">
-        <span className="inline-block animate-spin">&#128508;</span>旋转
-        <span className="inline-block animate-spin">&#128507;</span>
+        <span className="inline-block origin-top-right animate-spin">
+          &#128508;
+        </span>
+        旋转
+        <span className="inline-block origin-bottom animate-spin">
+          &#128507;
+        </span>
       </button>
 
-      <span class="relative flex h-10 w-10">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-500 opacity-75"></span>
-        <span class="relative inline-flex h-10 w-10 rounded-full bg-sky-500"></span>
+      <span className="relative flex h-10 w-10">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-500 opacity-75"></span>
+        <span className="relative inline-flex h-10 w-10 rounded-full bg-sky-500"></span>
       </span>
 
-      
+      <div className="h-20 w-20 rounded-full bg-indigo-500 motion-safe:animate-bounce"></div>
+
+      <form>
+        <label>
+          <input type="checkbox" /> Browser default
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            className="accent-pink-300 motion-safe:animate-pulse"
+          />
+          Customized
+        </label>
+      </form>
     </div>
   );
 }
