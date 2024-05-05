@@ -15,7 +15,7 @@ export default function Page() {
         <Link href="/aibots">
           <span className="text-red-500">&#128488;</span> AI学习研究
         </Link>
-        <Link href="/material-development">&#128520; IT教育资料开发</Link>
+        <Link href="/oe-mockup">&#128520; 欧易mockup</Link>
       </div>
 
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
