@@ -24,6 +24,9 @@ export default function Page() {
 
   function calRatio(ratio, open, number) {
     const arr = [];
+    if(ratio == 1){
+      return arr;
+    }
     for (let i = open; i < number; i *= ratio) {
       arr.push(i);
     }
