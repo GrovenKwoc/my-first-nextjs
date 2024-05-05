@@ -10,7 +10,7 @@ export default function Page() {
       {/* 顶部导航栏 */}
       <div className="flex h-20  shrink-0 items-end justify-around rounded-lg bg-blue-500 p-4 md:h-52">
         <GwoLogo />
-        <Link href="/dashboard">&#128286; 企业记账系统</Link>
+        <Link href="/dashboard">&#128286; souler情绪记录</Link>
         <Link href="/tailwindcss-playground">&#128293; TailwindCSS学习</Link>
         <Link href="/aibots">
           <span className="text-red-500">&#128488;</span> AI学习研究

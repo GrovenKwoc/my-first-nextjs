@@ -10,10 +10,10 @@ export default async function LatestInvoices() {
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Latest Invoices
+        最新情绪事件
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-        NOTE: comment in this code when you get to this point in the course
+        NOTE: 新增情绪需要及时疏导。
 
         <div className="bg-white px-6">
           {latestInvoices.map((invoice, i) => {

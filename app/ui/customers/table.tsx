@@ -13,9 +13,9 @@ export default async function CustomersTable({
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
-        Customers
+        黑名单贱人
       </h1>
-      <Search placeholder="Search customers..." />
+      <Search placeholder="查找贱人..." />
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
