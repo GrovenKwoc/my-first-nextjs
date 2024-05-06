@@ -5,7 +5,7 @@ export default function GwoLogo() {
     <div
       className={`${lusitana.className} flex flex-row`}
     >
-      <p className="text-2xl font-bold hover:drop-shadow-2xl">
+      <p className="text-3xl font-bold hover:drop-shadow-2xl">
         &#9198; G.W.O
         禁乐园 
         &#9197;
