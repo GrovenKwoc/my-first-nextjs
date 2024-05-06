@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import GwoLogo from '../ui/gwo-logo';
-import { set } from 'zod';
 
 export default function Page() {
   const [current, setCurrent] = useState('');
@@ -14,23 +13,33 @@ export default function Page() {
   const [diff, setDiff] = useState('');
   const [open, setOpen] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [many, setMany] = useState(true);
+
   const distanceRange = (
     (parseFloat(high) - parseFloat(low)) /
     parseFloat(distance)
   ).toFixed(2);
 
-  function generatePrices(current, distanceRange, targetPrice) {
+  function generatePrices(current, low, high, distanceRange, many) {
     const arr = [];
-    for (let i = current; i <= targetPrice; i += distanceRange) {
-      arr.push(i.toFixed(2));
+    if (many) {
+      for (let i = current; i <= high; i += distanceRange) {
+        arr.push(i.toFixed(2));
+      }
+    } else {
+      for (let i = current; i >= low; i -= distanceRange) {
+        arr.push(i.toFixed(2));
+      }
     }
     return arr;
   }
 
   const prices = generatePrices(
     parseFloat(current),
-    parseFloat(distanceRange),
+    parseFloat(low),
     parseFloat(high),
+    parseFloat(distanceRange),
+    many,
   );
 
   let arr;
@@ -50,23 +59,25 @@ export default function Page() {
     }));
   }
 
-  if(arr){
+  if (arr) {
     //处理累计部分
-    for(let i = 0; i< arr.length; i++){
-      arr[i].acc_num = i==0?parseFloat(arr[i].num):parseFloat(arr[i-1].acc_num)+parseFloat(arr[i].num);
-      arr[i].acc_price = i==0?arr[i].price*arr[i].num : arr[i].price*arr[i].num + arr[i-1].acc_price;
-      arr[i].avg_price = (arr[i].acc_price/arr[i].acc_num).toFixed(2);
-      arr[i].acc_ratio = i==0?"N/A":(100*(arr[i].avg_price/arr[i-1].avg_price-1)).toFixed(2); 
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].acc_num =
+        i == 0
+          ? parseFloat(arr[i].num)
+          : parseFloat(arr[i - 1].acc_num) + parseFloat(arr[i].num);
+      arr[i].acc_price =
+        i == 0
+          ? arr[i].price * arr[i].num
+          : arr[i].price * arr[i].num + arr[i - 1].acc_price;
+      arr[i].avg_price = (arr[i].acc_price / arr[i].acc_num).toFixed(2);
+      arr[i].acc_ratio =
+        i == 0
+          ? 'N/A'
+          : many
+          ? (100 * (arr[i].avg_price / arr[i - 1].avg_price - 1)).toFixed(2)
+          : (100 * (arr[i - 1].avg_price / arr[i].avg_price - 1)).toFixed(2);
     }
-    // arr = arr.forEach((cur,idx,array)=>{
-    //   return ({...cur,
-    //     acc_num: idx==0?cur.num:cur.num + array[idx-1].acc_num,
-        // acc_price: idx==0?cur.price*cur.num : cur.price*cur.num,
-        // avg_price: cur.acc_price/cur.acc_num,
-        // acc_ratio: idx==0?1:cur.avg_price/cur.avg_price,
-      // })
-    // });
-    console.log(arr);
   }
 
   const total = arr
@@ -75,8 +86,6 @@ export default function Page() {
         total_num: arr.reduce((acc, cur) => acc + parseFloat(cur.num), 0),
       }
     : { total_price: 0, total_num: 1 };
-
-  console.log(total);
   return (
     <div>
       <div className="h-16 bg-blue-500 p-4 text-white">
@@ -86,6 +95,29 @@ export default function Page() {
         <h1 className="w-1/3 rounded-md bg-blue-500 p-4 text-center text-2xl text-white">
           欧易计算器
         </h1>
+        <div className="space-x-8 p-4 text-lg">
+          <label for="many">
+            {' '}
+            做多
+            <input
+              defaultChecked
+              type="radio"
+              id="many"
+              name="strategy"
+              onChange={() => setMany(true)}
+            />
+          </label>
+          <label for="empty">
+            {' '}
+            做空
+            <input
+              type="radio"
+              id="empty"
+              name="strategy"
+              onChange={() => setMany(false)}
+            />
+          </label>
+        </div>
         <div className="p-4">
           <label>
             *盘面价格:
@@ -234,7 +266,8 @@ export default function Page() {
         >
           <table className="w-full">
             <caption className="mb-4 text-2xl font-bold">
-              {style}计算结果:
+              {style}
+              {many ? '多单' : '空单'}计算结果:
             </caption>
             <thead className="border-b border-white">
               <tr>
