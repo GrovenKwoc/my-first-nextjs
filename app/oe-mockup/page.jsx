@@ -234,7 +234,7 @@ export default function Page() {
         </div>
         <div className="p-4">
           <span>
-            单手最小保证金：
+            单笔最小保证金：
             {(parseFloat(current) * parseFloat(coeffient)).toFixed(2)}
           </span>
           <br />
@@ -272,7 +272,7 @@ export default function Page() {
             <thead className="border-b border-white">
               <tr>
                 <th>当前手数</th>
-                <th>当前网格交易成本</th>
+                <th>当前网格价格</th>
                 <th>累计手数</th>
                 <th>累计网格平均交易成本</th>
                 <th>单网格收益率</th>
@@ -298,7 +298,7 @@ export default function Page() {
               </tr>
               <tr>
                 <td colSpan={2}>
-                  持仓平均数：
+                  持仓平均价：
                   {arr ? (total.total_price / total.total_num).toFixed(2) : 0}
                 </td>
               </tr>
