@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import GwoLogo from '../ui/gwo-logo';
+import { set } from 'zod';
 
 export default function Page() {
   const [current, setCurrent] = useState('');
@@ -48,8 +49,13 @@ export default function Page() {
   }
 
   const total = arr
-    ? arr.reduce((acc, cur) => acc + cur.num * cur.price, 0)
-    : 0;
+    ? {
+        total_price: arr.reduce((acc, cur) => acc + cur.num * cur.price, 0),
+        total_num: arr.reduce((acc, cur) => acc + parseFloat(cur.num), 0),
+      }
+    : { total_price: 0, total_num: 1 };
+
+  console.log(total);
   return (
     <div>
       <div className="h-16 bg-blue-500 p-4 text-white">
@@ -147,12 +153,15 @@ export default function Page() {
         <div>
           {style == '等比' ? (
             <label>
-              公比：{' '}
+              公比:
               <input
                 type="text"
                 className="ml-4 rounded-md ring-2 ring-gray-200"
                 value={ratio}
-                onChange={(e) => setRatio(e.target.value)}
+                onChange={(e) => {
+                  setRatio(e.target.value);
+                  setDiff('');
+                }}
               />{' '}
             </label>
           ) : (
@@ -162,7 +171,10 @@ export default function Page() {
                 type="text"
                 className="ml-4 rounded-md ring-2 ring-gray-200"
                 value={diff}
-                onChange={(e) => setDiff(e.target.value)}
+                onChange={(e) => {
+                  setDiff(e.target.value);
+                  setRatio('');
+                }}
               />
             </label>
           )}
@@ -220,16 +232,14 @@ export default function Page() {
             </tbody>
             <tfoot className="border-t border-white">
               <tr>
-                <td colSpan={2}>总保证金：{(total * coeffient).toFixed(2)}</td>
+                <td colSpan={2}>
+                  总保证金：{(total.total_price * coeffient).toFixed(2)}
+                </td>
               </tr>
               <tr>
                 <td colSpan={2}>
                   持仓平均数：
-                  {arr
-                    ? (
-                        total / arr.reduce((acc, cur) => acc + cur.num, 0)
-                      ).toFixed(2)
-                    : 0}
+                  {arr ? (total.total_price / total.total_num).toFixed(2) : 0}
                 </td>
               </tr>
             </tfoot>
