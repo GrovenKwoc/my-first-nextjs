@@ -52,11 +52,13 @@ export default function Page() {
     : 0;
   return (
     <div>
-      <div className="bg-blue-500 h-16 p-4 text-white">
-      <GwoLogo />
+      <div className="h-16 bg-blue-500 p-4 text-white">
+        <GwoLogo />
       </div>
       <div className="flex h-screen flex-col items-center justify-center">
-        <h1 className="text-2xl w-1/3 bg-blue-500 text-white p-4 rounded-md text-center">欧易计算器</h1>
+        <h1 className="w-1/3 rounded-md bg-blue-500 p-4 text-center text-2xl text-white">
+          欧易计算器
+        </h1>
         <div className="p-4">
           <label>
             *盘面价格:
@@ -72,7 +74,7 @@ export default function Page() {
         </div>
         <div className="p-4">
           <label>
-          *最低价格:
+            *最低价格:
             <input
               className="ml-4 rounded-md ring-2 ring-gray-200 hover:ring-4 hover:ring-gray-300"
               type="text"
@@ -85,7 +87,7 @@ export default function Page() {
         </div>
         <div className="p-4">
           <label>
-          *最高价格:
+            *最高价格:
             <input
               className="ml-4 rounded-md ring-2 ring-gray-200 hover:ring-4 hover:ring-gray-300"
               type="text"
@@ -98,7 +100,7 @@ export default function Page() {
         </div>
         <div className="p-4">
           <label>
-          *间距:
+            *间距:
             <input
               className="ml-4 rounded-md ring-2 ring-gray-200 hover:ring-4 hover:ring-gray-300"
               type="text"
@@ -109,7 +111,7 @@ export default function Page() {
         </div>
         <div className="p-4">
           <label>
-          *杠杆系数:
+            *杠杆系数:
             <input
               type="text"
               className="ml-4 rounded-md ring-2 ring-gray-200 hover:ring-4 hover:ring-gray-300"
@@ -121,7 +123,7 @@ export default function Page() {
         </div>
         <div>
           <label>
-          *开仓手数
+            *开仓手数
             <input
               type="number"
               className="ml-4 rounded-md ring-2 ring-gray-200"
@@ -132,7 +134,7 @@ export default function Page() {
         </div>
         <div className="p-4">
           <label>
-          *等比/等差:
+            *等比/等差:
             <select
               onChange={(e) => setStyle(e.target.value)}
               className="ml-4 w-44 rounded-md ring-2 ring-gray-200"
@@ -222,7 +224,12 @@ export default function Page() {
               </tr>
               <tr>
                 <td colSpan={2}>
-                  持仓平均数：{arr ? (total / arr.length).toFixed(2) : 0}
+                  持仓平均数：
+                  {arr
+                    ? (
+                        total / arr.reduce((acc, cur) => acc + cur.num, 0)
+                      ).toFixed(2)
+                    : 0}
                 </td>
               </tr>
             </tfoot>
