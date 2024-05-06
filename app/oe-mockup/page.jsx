@@ -37,15 +37,36 @@ export default function Page() {
   if (open && high && low && diff && style && style == '等差') {
     arr = prices.map((price, idx) => ({
       num: parseFloat(open) + idx * parseFloat(diff),
-      price: price,
+      price: parseFloat(price),
     }));
   }
 
   if (open && high && low && ratio && style && style == '等比') {
     arr = prices.map((price, idx) => ({
+      //当前手数
       num: (parseFloat(open) * parseFloat(ratio) ** idx).toFixed(2),
-      price: price,
+      //当前价格
+      price: parseFloat(price),
     }));
+  }
+
+  if(arr){
+    //处理累计部分
+    for(let i = 0; i< arr.length; i++){
+      arr[i].acc_num = i==0?parseFloat(arr[i].num):parseFloat(arr[i-1].acc_num)+parseFloat(arr[i].num);
+      arr[i].acc_price = i==0?arr[i].price*arr[i].num : arr[i].price*arr[i].num + arr[i-1].acc_price;
+      arr[i].avg_price = (arr[i].acc_price/arr[i].acc_num).toFixed(2);
+      arr[i].acc_ratio = i==0?"N/A":(100*(arr[i].avg_price/arr[i-1].avg_price-1)).toFixed(2); 
+    }
+    // arr = arr.forEach((cur,idx,array)=>{
+    //   return ({...cur,
+    //     acc_num: idx==0?cur.num:cur.num + array[idx-1].acc_num,
+        // acc_price: idx==0?cur.price*cur.num : cur.price*cur.num,
+        // avg_price: cur.acc_price/cur.acc_num,
+        // acc_ratio: idx==0?1:cur.avg_price/cur.avg_price,
+      // })
+    // });
+    console.log(arr);
   }
 
   const total = arr
@@ -106,7 +127,7 @@ export default function Page() {
         </div>
         <div className="p-4">
           <label>
-            *间距:
+            *网格数量:
             <input
               className="ml-4 rounded-md ring-2 ring-gray-200 hover:ring-4 hover:ring-gray-300"
               type="text"
@@ -186,12 +207,12 @@ export default function Page() {
           </span>
           <br />
           <span>
-            网格数：
+            网格数值：
             {distanceRange}
           </span>
           <br />
-          <span>单网格收益率：{parseFloat(distance).toFixed(2)}</span>
-          <br />
+          {/* <span>单网格收益率：{parseFloat(distance).toFixed(2)}</span>
+          <br /> */}
           <span>
             预估头寸强平价：
             {(parseFloat(current) * (1 - parseFloat(coeffient))).toFixed(2)}
@@ -217,8 +238,11 @@ export default function Page() {
             </caption>
             <thead className="border-b border-white">
               <tr>
-                <th>手数</th>
-                <th>持仓成本</th>
+                <th>当前手数</th>
+                <th>当前网格交易成本</th>
+                <th>累计手数</th>
+                <th>累计网格平均交易成本</th>
+                <th>单网格收益率</th>
               </tr>
             </thead>
             <tbody>
@@ -227,6 +251,9 @@ export default function Page() {
                   <tr key={idx} className="hover:bg-white hover:bg-opacity-20">
                     <td>{i.num}</td>
                     <td>{i.price}</td>
+                    <td>{i.acc_num}</td>
+                    <td>{i.avg_price}</td>
+                    <td>{i.acc_ratio}</td>
                   </tr>
                 ))}
             </tbody>
