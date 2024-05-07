@@ -61,7 +61,9 @@ export default function Page() {
 
   const total = arr
     ? {
+        //总交易额
         total_price: arr.reduce((acc, cur) => acc + cur.num * cur.price, 0),
+        //总手数
         total_num: arr.reduce((acc, cur) => acc + parseFloat(cur.num), 0),
       }
     : '';
@@ -69,27 +71,56 @@ export default function Page() {
   if (total) {
     //处理累计部分
     for (let i = 0; i < arr.length; i++) {
+      //累计手数，本项手数+上一项的累计手数
       arr[i].acc_num =
         i == 0
           ? parseFloat(arr[i].num)
           : (parseFloat(arr[i - 1].acc_num) + parseFloat(arr[i].num)).toFixed(
               2,
             );
+
+      //累计交易额，本项交易额+上一项的累计交易额
       arr[i].acc_price =
         i == 0
           ? arr[i].price * arr[i].num
           : arr[i].price * arr[i].num + arr[i - 1].acc_price;
+
+      //截至本项的平均交易成本
       arr[i].avg_price = (arr[i].acc_price / arr[i].acc_num).toFixed(2);
 
-      //单网格收益率
-      arr[i].acc_ratio =
-        i == 0
-          ? 0
-          : (
-              (((arr[i].avg_price - arr[i - 1].price) * arr[i].acc_num) /
-                (total.total_price * coeffient)) *
+      //单网格收益率（顺势）
+      if (i > 0) {
+        switch (many) {
+          case 'many':
+            arr[i].acc_ratio = (
+              ((arr[i].price - arr[i].avg_price) / (current * coeffient)) *
               100
             ).toFixed(2);
+            break;
+          case 'empty':
+            arr[i].acc_ratio = Math.abs(
+              ((arr[i - 1].price - arr[i].avg_price) / (current * coeffient)) *
+                100,
+            ).toFixed(2);
+            break;
+          case 'many_reverse':
+            arr[i].acc_ratio = (
+              ((arr[i].num * arr[i - 1].price) /
+                (arr[i].acc_num * current * coeffient)) *
+              100
+            ).toFixed(2);
+            break;
+          case 'empty_reverse':
+            arr[i].acc_ratio = (
+              ((arr[i].num * arr[i - 1].price) /
+                (arr[i].acc_num * current * coeffient)) *
+              100
+            ).toFixed(2);
+            break;
+        }
+      } else {
+        arr[i].acc_ratio = 'N/A';
+      }
 
       //浮亏数值
       arr[i].moving_ratio = (
@@ -274,10 +305,14 @@ export default function Page() {
           <br />
           {/* <span>单网格收益率：{parseFloat(distance).toFixed(2)}</span>
           <br /> */}
-          <span>
-            预估头寸强平价：
-            {(parseFloat(current) * (1 - parseFloat(coeffient))).toFixed(2)}
-          </span>
+          {many == 'empty_reverse' || many == 'many_reverse' ? (
+            <span>
+              预估头寸强平价：
+              {(parseFloat(current) * (1 - parseFloat(coeffient))).toFixed(2)}
+            </span>
+          ) : (
+            ''
+          )}
           <br />
         </div>
         <button
@@ -307,15 +342,19 @@ export default function Page() {
             </caption>
             <thead className="border-b border-white">
               <tr>
-                <th>当前手数</th>
-                <th>当前网格价格</th>
-                <th>累计手数</th>
-                <th>
-                  累计网格
+                <th className="w-12 border border-white">手数</th>
+                <th className="w-24 border border-white">当前网格价</th>
+                <th className="w-24 border border-white">累计手数</th>
+                <th className="w-32 border border-white">
                   {many == 'many_reverse' ? '浮亏平均价' : '平均交易成本'}
                 </th>
-                <th>单网格收益率</th>
-                {many == 'many_reverse' ? <th>浮亏数值</th> : ''}
+                <th className="w-32 border border-white">单网格收益率</th>
+                {many == 'many_reverse' ? (
+                  <th className="w-32 border border-white">浮亏数值</th>
+                ) : (
+                  ''
+                )}
+                <th className="w-24 border border-white">强平价</th>
               </tr>
             </thead>
             <tbody className="h-full">
@@ -331,6 +370,19 @@ export default function Page() {
                     <td>{i.avg_price}</td>
                     <td>{i.acc_ratio}</td>
                     {many == 'many_reverse' ? <td>{i.moving_ratio}</td> : ''}
+                    <td>
+                      {many == 'many'
+                        ? (
+                            i.avg_price -
+                            parseFloat(current) * parseFloat(coeffient)
+                          ).toFixed(2)
+                        : many == 'empty' || many == 'mamy_reverse'
+                        ? (
+                            parseFloat(i.avg_price) +
+                            parseFloat(current) * parseFloat(coeffient)
+                          ).toFixed(2)
+                        : ''}
+                    </td>
                   </tr>
                 ))}
             </tbody>
