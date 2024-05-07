@@ -13,7 +13,7 @@ export default function Page() {
   const [diff, setDiff] = useState('');
   const [open, setOpen] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [many, setMany] = useState(true);
+  const [many, setMany] = useState('many');
 
   const distanceRange = (
     (parseFloat(high) - parseFloat(low)) /
@@ -22,7 +22,7 @@ export default function Page() {
 
   function generatePrices(current, low, high, distanceRange, many) {
     const arr = [];
-    if (many) {
+    if (many == 'many') {
       for (let i = current; i <= high; i += distanceRange) {
         arr.push(i.toFixed(2));
       }
@@ -59,33 +59,46 @@ export default function Page() {
     }));
   }
 
-  if (arr) {
-    //处理累计部分
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].acc_num =
-        i == 0
-          ? parseFloat(arr[i].num)
-          : parseFloat(arr[i - 1].acc_num) + parseFloat(arr[i].num);
-      arr[i].acc_price =
-        i == 0
-          ? arr[i].price * arr[i].num
-          : arr[i].price * arr[i].num + arr[i - 1].acc_price;
-      arr[i].avg_price = (arr[i].acc_price / arr[i].acc_num).toFixed(2);
-      arr[i].acc_ratio =
-        i == 0
-          ? 'N/A'
-          : many
-          ? (100 * (arr[i].avg_price / arr[i - 1].avg_price - 1)).toFixed(2)
-          : (100 * (arr[i - 1].avg_price / arr[i].avg_price - 1)).toFixed(2);
-    }
-  }
-
   const total = arr
     ? {
         total_price: arr.reduce((acc, cur) => acc + cur.num * cur.price, 0),
         total_num: arr.reduce((acc, cur) => acc + parseFloat(cur.num), 0),
       }
-    : { total_price: 0, total_num: 1 };
+    : '';
+
+  if (total) {
+    //处理累计部分
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].acc_num =
+        i == 0
+          ? parseFloat(arr[i].num)
+          : (parseFloat(arr[i - 1].acc_num) + parseFloat(arr[i].num)).toFixed(
+              2,
+            );
+      arr[i].acc_price =
+        i == 0
+          ? arr[i].price * arr[i].num
+          : arr[i].price * arr[i].num + arr[i - 1].acc_price;
+      arr[i].avg_price = (arr[i].acc_price / arr[i].acc_num).toFixed(2);
+
+      //单网格收益率
+      arr[i].acc_ratio =
+        i == 0
+          ? 0
+          : (
+              (((arr[i].avg_price - arr[i - 1].price) * arr[i].acc_num) /
+                (total.total_price * coeffient)) *
+              100
+            ).toFixed(2);
+
+      //浮亏数值
+      arr[i].moving_ratio = (
+        (arr[i].avg_price - arr[i].price) *
+        arr[i].acc_num
+      ).toFixed(2);
+    }
+  }
+
   return (
     <div>
       <div className="h-16 bg-blue-500 p-4 text-white">
@@ -97,24 +110,40 @@ export default function Page() {
         </h1>
         <div className="space-x-8 p-4 text-lg">
           <label for="many">
-            {' '}
-            做多
+            顺势做多
             <input
               defaultChecked
               type="radio"
               id="many"
               name="strategy"
-              onChange={() => setMany(true)}
+              onChange={() => setMany('many')}
             />
           </label>
           <label for="empty">
-            {' '}
-            做空
+            顺势做空
             <input
               type="radio"
               id="empty"
               name="strategy"
-              onChange={() => setMany(false)}
+              onChange={() => setMany('empty')}
+            />
+          </label>
+          <label for="many_reverse">
+            逆势做多
+            <input
+              type="radio"
+              id="many_reverse"
+              name="strategy"
+              onChange={() => setMany('many_reverse')}
+            />
+          </label>
+          <label for="empty_reverse">
+            逆势做空
+            <input
+              type="radio"
+              id="empty_reverse"
+              name="strategy"
+              onChange={() => setMany('empty_reverse')}
             />
           </label>
         </div>
@@ -262,31 +291,46 @@ export default function Page() {
         </button>
         <dialog
           open={isDialogOpen}
-          className=" w-4/5 rounded-lg bg-slate-800 p-4 text-left text-white opacity-80"
+          className="h-1/2 w-4/5 rounded-lg bg-slate-800 p-4 text-left text-white opacity-80"
         >
-          <table className="w-full">
+          <table className="block h-full w-full justify-self-center overflow-hidden pl-10 hover:overflow-auto">
             <caption className="mb-4 text-2xl font-bold">
               {style}
-              {many ? '多单' : '空单'}计算结果:
+              {many == 'many'
+                ? '顺势多单'
+                : many == 'empty'
+                ? '顺势空单'
+                : many == 'many_reverse'
+                ? '逆势多单'
+                : '逆势空单'}
+              计算结果:
             </caption>
             <thead className="border-b border-white">
               <tr>
                 <th>当前手数</th>
                 <th>当前网格价格</th>
                 <th>累计手数</th>
-                <th>累计网格平均交易成本</th>
+                <th>
+                  累计网格
+                  {many == 'many_reverse' ? '浮亏平均价' : '平均交易成本'}
+                </th>
                 <th>单网格收益率</th>
+                {many == 'many_reverse' ? <th>浮亏数值</th> : ''}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="h-full">
               {arr &&
                 arr.map((i, idx) => (
-                  <tr key={idx} className="hover:bg-white hover:bg-opacity-20">
+                  <tr
+                    key={idx}
+                    className="h-10 border-white hover:bg-white hover:bg-opacity-30"
+                  >
                     <td>{i.num}</td>
                     <td>{i.price}</td>
                     <td>{i.acc_num}</td>
                     <td>{i.avg_price}</td>
                     <td>{i.acc_ratio}</td>
+                    {many == 'many_reverse' ? <td>{i.moving_ratio}</td> : ''}
                   </tr>
                 ))}
             </tbody>
@@ -305,7 +349,7 @@ export default function Page() {
             </tfoot>
           </table>
           <button
-            className="w-full rounded-md bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+            className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
             onClick={() => setIsDialogOpen(false)}
           >
             关闭
