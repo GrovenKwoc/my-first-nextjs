@@ -6,7 +6,7 @@ export function Navbar(){
             <Link href="/">回到首页</Link>
             <Link href="/tailwindcss-playground/test2">排版练习</Link>
             <Link href="/tailwindcss-playground/test3">动画练习</Link>
-            <Link href="#">Home4</Link>
+            <Link href="/tailwindcss-playground/layout">布局练习</Link>
         </nav>
     )
 }
