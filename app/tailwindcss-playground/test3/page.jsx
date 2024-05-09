@@ -41,6 +41,28 @@ export default function Page() {
           Customized
         </label>
       </form>
+     
+      <svg className="animate-spin origin- w-20 h-20 border-r-4 border-l-4 border-black shadow-lg rounded-full" >
+        <rect x="25%" width="25%" height="25%" fill="green"/>
+        <rect  x="25%" y="25%" width="25%" height="25%" fill="red"/>
+        <rect  y="25%" width="25%" height="25%" fill="blue"/>
+        <rect width="25%" height="25%" fill="purple"/>
+      </svg>
+
+      <svg className="animate-spin_ease origin- w-20 h-20 border-r-2 border-b-8 border-black shadow-lg rounded-full" >
+        <rect x="25%" width="25%" height="25%" fill="green"/>
+        <rect  x="25%" y="25%" width="25%" height="25%" fill="red"/>
+        <rect  y="25%" width="25%" height="25%" fill="blue"/>
+        <rect width="25%" height="25%" fill="purple"/>
+      </svg>
+
+      <svg className="animate-spin_ease_in_out origin- w-20 h-20 border-b-8 border-black shadow-lg rounded-full" >
+        <rect x="25%" width="25%" height="25%" fill="green"/>
+        <rect  x="25%" y="25%" width="25%" height="25%" fill="red"/>
+        <rect  y="25%" width="25%" height="25%" fill="blue"/>
+        <rect width="25%" height="25%" fill="purple"/>
+      </svg>
+
     </div>
   );
 }

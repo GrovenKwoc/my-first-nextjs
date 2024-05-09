@@ -21,7 +21,10 @@ const config: Config = {
       },
       animation: {
         none: 'none',
-        spin: 'spin 1s linear infinite',
+        spin: 'spin 2s linear infinite',
+        spin_ease: 'spin 2s ease infinite',
+        spin_reverse_ease: 'spin_reverse 2s ease-in-out infinite',
+        spin_ease_in_out: 'spin 2s ease-in-out infinite',
         ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
         pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         bounce: 'bounce 1s infinite',
@@ -40,6 +43,10 @@ const config: Config = {
       spin:{
         '0%': { transform: 'rotate(0deg)' },
         '100%': { transform: 'rotate(360deg)' }
+      },
+      spin_reverse:{
+        '0%': { transform: 'rotate(0deg)' },
+        '100%': { transform: 'rotate(-360deg)' }
       },
       ping:{
         '75%, 100%': { transform:'scale(1.5)', opacity: '0' },
