@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import GwoLogo from '../ui/gwo-logo';
 
 export default function Page() {
   const [current, setCurrent] = useState('');
@@ -131,9 +130,7 @@ export default function Page() {
 
   return (
     <div>
-      <div className="h-16 bg-blue-500 p-4 text-white">
-        <GwoLogo />
-      </div>
+      <div className="h-16 bg-blue-500 p-4 text-white"></div>
       <div className="flex h-screen flex-col items-center justify-center">
         <h1 className="w-1/3 rounded-md bg-blue-500 p-4 text-center text-2xl text-white">
           欧易计算器
