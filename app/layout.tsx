@@ -17,13 +17,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  gptbot,
 }: {
   children: React.ReactNode;
+  gptbot: React.ReactNode;
 }) {
   return (
     <html lang="zh_CN">
       <body
-        className={`${inter.className} max-w-screen flex max-h-screen flex-col overflow-auto bg-gray-100 text-gray-800 antialiased`}
+        className={`${inter.className} max-w-screen flex max-h-screen flex-col bg-gray-100 text-gray-800 antialiased`}
       >
         <header className="flex w-full flex-row items-center justify-between border-b border-gray-200 bg-white px-4 py-2">
           <GwoLogo />
@@ -32,6 +34,7 @@ export default function RootLayout({
         <main className="flex min-h-screen flex-row divide-x-4 divide-gray-200">
           <Claim />
           <Suspense fallback={<Loading />}>{children}</Suspense>
+          {gptbot}
         </main>
       </body>
     </html>
