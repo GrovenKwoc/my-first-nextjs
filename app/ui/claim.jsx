@@ -21,7 +21,7 @@ export async function Claim() {
         href="/login"
         className="flex items-center gap-5 self-start bg-green-400 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
       >
-        <span>抢滩登录</span>
+        <span>抢滩登录(Open Modal)</span>
       </Link>
     </div>
   );

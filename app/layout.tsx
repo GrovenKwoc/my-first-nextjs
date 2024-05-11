@@ -18,9 +18,11 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   gptbot,
+  auth,
 }: {
   children: React.ReactNode;
   gptbot: React.ReactNode;
+  auth: React.ReactNode;
 }) {
   return (
     <html lang="zh_CN">
@@ -33,8 +35,9 @@ export default function RootLayout({
         </header>
         <main className="flex min-h-screen flex-row divide-x-4 divide-gray-200">
           <Claim />
+          <div>{auth}</div>
           <Suspense fallback={<Loading />}>{children}</Suspense>
-          {gptbot}
+          <Suspense fallback={<Loading />}>{gptbot}</Suspense>
         </main>
       </body>
     </html>
