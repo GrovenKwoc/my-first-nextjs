@@ -1,8 +1,9 @@
 import { Button } from '@/app/ui/button';
 import { createHater } from '@/app/lib/actions';
 import Link from 'next/link';
+import { HaterField } from '@/app/lib/definitions';
 
-export function Form() {
+export function Form({ haters }: { haters: HaterField[] }) {
   return (
     <form action={createHater}>
       <div className="mb-4">
