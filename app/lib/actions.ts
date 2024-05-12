@@ -9,23 +9,23 @@ import { AuthError } from 'next-auth';
 
 const FormSchema = z.object({
   id: z.string(),
-  customerId: z.string({
-    invalid_type_error: 'Please select a customer.',
+  haterId: z.string({
+    invalid_type_error: '请选择一个仇家',
   }),
-  amount: z.coerce.number().gt(0, { message: 'Please enter an amount greater than $0.' }),
-  status: z.enum(['pending', 'paid'],{
-    invalid_type_error: 'Please select an invoice status.',
+  content: z.string(),
+  status: z.enum(['solved', 'unsolved'], {
+    invalid_type_error: '请选择目前对该事件的情绪状态',
   }),
   date: z.string(),
 });
 
-const CreateInvoice = FormSchema.omit({ id: true, date: true });
-const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+const CreateRecord = FormSchema.omit({ id: true, date: true });
+const UpdateRecord = FormSchema.omit({ id: true, date: true });
 
 export type State = {
   errors?: {
-    customerId?: string[];
-    amount?: string[];
+    haterId?: string[];
+    content?: string[];
     status?: string[];
   };
   message?: string | null;
@@ -50,71 +50,68 @@ export async function authenticate(
   }
 }
 
-export async function createInvoice(prevState:State,formData: FormData) {
-  const validatedFields = CreateInvoice.safeParse({
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
+export async function createRecord(prevState: State, formData: FormData) {
+  const validatedFields = CreateRecord.safeParse({
+    haterId: formData.get('haterId'),
+    content: formData.get('content'),
     status: formData.get('status'),
   });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
+      message: 'Missing Fields. Failed to Create Record.',
     };
   }
 
-  
-  const { customerId, amount, status } = validatedFields.data;
-  const amountInCents = amount * 100;
+  const { haterId, content, status } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
 
   try {
     await sql`
-    INSERT INTO invoices (customer_id, amount, status, date)
-    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    INSERT INTO record (hater_id, content, status, date)
+    VALUES (${haterId}, ${content}, ${status}, ${date})
   `;
   } catch (e) {
     return {
       message: 'Database Error: Failed to Create Invoice.',
     };
   }
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  revalidatePath('/diary/record');
+  redirect('/diary/record');
 }
 
-export async function updateInvoice(id: string, formData: FormData) {
-  const { customerId, amount, status } = UpdateInvoice.parse({
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
+export async function updateRecord(id: string, formData: FormData) {
+  const { haterId, content, status } = UpdateRecord.parse({
+    haterId: formData.get('haterId'),
+    content: formData.get('content'),
     status: formData.get('status'),
   });
 
-  const amountInCents = amount * 100;
   try {
     await sql`
-      UPDATE invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+      UPDATE record
+      SET hater_id = ${haterId}, content = ${content}, status = ${status}
       WHERE id = ${id}
     `;
 
-    revalidatePath('/dashboard/invoices');
-    redirect('/dashboard/invoices');
+    revalidatePath('/diary/record');
+    redirect('/diary/record');
   } catch (e) {
     return {
-      message: 'Database Error: Failed to Update Invoice.',
+      message: 'Database Error: Failed to Update Record.',
     };
   }
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  revalidatePath('/diary/record');
+  redirect('/diary/record');
 }
 
-export async function deleteInvoice(id: string) {
-  throw new Error('Failed to Delete Invoice');
+export async function deleteRecord(id: string) {
+  throw new Error('Failed to Delete Record');
   try {
-    await sql`DELETE FROM invoices WHERE id = ${id}`;
-    revalidatePath('/dashboard/invoices');
+    await sql`DELETE FROM record WHERE id = ${id}`;
+    revalidatePath('/diary/record');
   } catch (e) {
-    return { message: 'Database Error: Failed to Delete Invoice.' };
+    return { message: 'Database Error: Failed to Delete Record.' };
   }
 }

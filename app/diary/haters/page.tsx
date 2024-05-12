@@ -1,9 +1,9 @@
-import { fetchCustomers,fetchFilteredCustomers } from '@/app/lib/data';
-import CustomersTable from '@/app/ui/customers/table';
+import { fetchAllHaters, fetchFilteredHaters } from '@/app/lib/data';
+import HatersTable from '@/app/ui/haters/table';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Customers',
+  title: 'Haters',
 };
 
 export default async function Page({
@@ -16,10 +16,10 @@ export default async function Page({
 }) {
   const query = searchParams?.query || '';
   // const currentPage = Number(searchParams?.page) || 1;
-  const totalCustomers = await fetchFilteredCustomers(query);
+  const totalHaters = await fetchFilteredHaters(query);
   return (
     <main>
-      <CustomersTable customers={totalCustomers}/>
+      <HatersTable haters={totalHaters}/>
     </main>
   );
 }

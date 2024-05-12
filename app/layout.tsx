@@ -8,20 +8,19 @@ import { Suspense } from 'react';
 import Loading from './loading';
 export const metadata: Metadata = {
   title: {
-    template: '%s | G.W.O ☢ 禁乐园',
-    default: 'G.W.O ☢ 禁乐园',
+    template: '%s | G.W.O ☢ 情绪价值管理平台',
+    default: 'G.W.O ☢ 情绪价值管理平台',
   },
-  description: '全Soul最强的禁乐园，欢迎广大Soul粉丝来禁！',
+  description:
+    '全Soul最大情绪管理平台，专注于情绪价值管理，助力全Soul成员提升情绪价值！',
   metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
 
 export default function RootLayout({
   children,
-  gptbot,
   auth,
 }: {
   children: React.ReactNode;
-  gptbot: React.ReactNode;
   auth: React.ReactNode;
 }) {
   return (

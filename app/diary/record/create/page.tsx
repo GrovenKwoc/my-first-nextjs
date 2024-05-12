@@ -1,29 +1,29 @@
-import Form from '@/app/ui/invoices/create-form';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
-import { fetchCustomers } from '@/app/lib/data';
- 
+import Form from '@/app/ui/record/create-form';
+import Breadcrumbs from '@/app/ui/record/breadcrumbs';
+import { fetchAllHaters } from '@/app/lib/data';
+
 import { Metadata } from 'next';
- 
+
 export const metadata: Metadata = {
-  title: 'Create Invoice',
+  title: '新增情绪记录',
 };
 
 export default async function Page() {
-  const customers = await fetchCustomers();
- 
+  const haters = await fetchAllHaters();
+
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Invoices', href: '/dashboard/invoices' },
+          { label: '情绪记录', href: '/diary/record' },
           {
-            label: 'Create Invoice',
-            href: '/dashboard/invoices/create',
+            label: '新增情绪记录',
+            href: '/diary/record/create',
             active: true,
           },
         ]}
       />
-      <Form customers={customers} />
+      <Form haters={haters} />
     </main>
   );
 }
