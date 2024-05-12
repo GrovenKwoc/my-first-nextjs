@@ -2,7 +2,7 @@ import { fetchAllHaters, fetchFilteredHaters } from '@/app/lib/data';
 import HatersTable from '@/app/ui/haters/table';
 import { Metadata } from 'next';
 export const metadata: Metadata = {
-  title: 'Haters',
+  title: '黑名单仇人',
 };
 
 export default async function Page({

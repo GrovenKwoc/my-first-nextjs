@@ -25,7 +25,7 @@ export default async function RevenueChart() {
   return (
     <div className="w-full md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        平台近5日负面情绪指数
+        平台近一年负面情绪指数
       </h2>
       NOTE:
       统计本平台过去一年的暴怒指数（仇人数与负面记录的加权指数），旨在反映Soul

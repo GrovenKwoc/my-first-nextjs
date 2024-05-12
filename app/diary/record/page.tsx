@@ -8,9 +8,9 @@ import { Suspense } from 'react';
 import { fetchRecordsPages } from '@/app/lib/data';
 
 import { Metadata } from 'next';
- 
+
 export const metadata: Metadata = {
-  title: 'Invoices',
+  title: '情绪日记簿',
 };
 
 export default async function Page({
