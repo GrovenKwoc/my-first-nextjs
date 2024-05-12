@@ -12,7 +12,7 @@ import { fetchRevenue } from '@/app/lib/data';
 
 export default async function RevenueChart() {
   const revenue = await fetchRevenue();
-  
+
   const chartHeight = 350;
   // NOTE: comment in this code when you get to this point in the course
 
@@ -25,12 +25,13 @@ export default async function RevenueChart() {
   return (
     <div className="w-full md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        近年暴怒指数
+        平台近5日负面情绪指数
       </h2>
-      NOTE: 统计您过去一年的暴怒指数，并以图表的形式呈现。
-
+      NOTE:
+      统计本平台过去一年的暴怒指数（仇人数与负面记录的加权指数），旨在反映Soul
+      App玩家的情绪波动程度。
       <div className="rounded-xl bg-gray-50 p-4">
-        <div className="sm:grid-cols-13 mt-0 grid grid-cols-12 items-end gap-2 rounded-md bg-white p-4 md:gap-4">
+        <div className="mt-0 grid grid-cols-12 items-end gap-2 rounded-md bg-white p-4 sm:grid-cols-13 md:gap-4">
           <div
             className="mb-6 hidden flex-col justify-between text-sm text-gray-400 sm:flex"
             style={{ height: `${chartHeight}px` }}

@@ -1,7 +1,7 @@
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
 import { FormattedHatersTable } from '@/app/lib/definitions';
-
+import { CreateHater } from '@/app/ui/haters/buttons';
 export default async function HatersTable({
   haters,
 }: {
@@ -10,9 +10,12 @@ export default async function HatersTable({
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
-        黑名单贱人
+        Soul黑名单仇人
       </h1>
-      <Search placeholder="查找贱人..." />
+      <div className="flex flex-row space-x-8">
+        <Search placeholder="查找仇人..." />
+        <CreateHater />
+      </div>
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -28,16 +31,16 @@ export default async function HatersTable({
                     </div>
                     <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">未排解</p>
+                        <p className="text-xs">旧怨</p>
                         <p className="font-medium">{hater.total_unsolved}</p>
                       </div>
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Paid</p>
+                        <p className="text-xs">解怨</p>
                         <p className="font-medium">{hater.total_solved}</p>
                       </div>
                     </div>
                     <div className="pt-4 text-sm">
-                      <p>{hater.total_records} invoices</p>
+                      <p>{hater.total_records} 累计积怨</p>
                     </div>
                   </div>
                 ))}
@@ -46,16 +49,16 @@ export default async function HatersTable({
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      贱人名
+                      仇人昵称
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      总结仇事件数
+                      结仇记录数
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      仍未排解恩怨数
+                      未解恩怨
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
-                      已排解恩怨数
+                      已解恩怨
                     </th>
                   </tr>
                 </thead>

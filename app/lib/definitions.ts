@@ -31,46 +31,40 @@ export type Revenue = {
   revenue: number;
 };
 
-export type LatestInvoice = {
+export type LatestRecord = {
   id: string;
   name: string;
-  image_url: string;
-  email: string;
-  amount: string;
+  content: string;
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
-export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
+export type LatestRecordsRaw = Omit<LatestRecord, 'amount'> & {
   amount: number;
 };
 
-export type InvoicesTable = {
+export type RecordsTable = {
   id: string;
-  customer_id: string;
+  hater_id: string;
   name: string;
-  email: string;
-  image_url: string;
   date: string;
-  amount: number;
-  status: 'pending' | 'paid';
+  content: string;
+  status: 'solved' | 'unsolved';
 };
 
 export type HatersTableType = {
   id: string;
   name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: number;
-  total_paid: number;
+  total_records: number;
+  total_unsolved: number;
+  total_solved: number;
 };
 
 export type FormattedHatersTable = {
   id: string;
   name: string;
   total_records: number;
-  total_unsolved: string;
-  total_solved: string;
+  total_unsolved: number;
+  total_solved: number;
 };
 
 export type HaterField = {

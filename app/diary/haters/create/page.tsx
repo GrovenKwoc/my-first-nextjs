@@ -1,11 +1,11 @@
-import Form from '@/app/ui/record/create-form';
+import {Form} from '@/app/ui/haters/create-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchAllHaters } from '@/app/lib/data';
 
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '新增情绪记录',
+  title: '新增仇人',
 };
 
 export default async function Page() {
@@ -15,10 +15,10 @@ export default async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: '情绪记录', href: '/diary/record' },
+          { label: '黑名单仇人', href: '/diary/haters' },
           {
-            label: '新增情绪记录',
-            href: '/diary/record/create',
+            label: '追加仇人',
+            href: '/diary/haters/create',
             active: true,
           },
         ]}

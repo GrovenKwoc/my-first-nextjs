@@ -22,6 +22,11 @@ const FormSchema = z.object({
 const CreateRecord = FormSchema.omit({ id: true, date: true });
 const UpdateRecord = FormSchema.omit({ id: true, date: true });
 
+const HaterFormSchema = z.object({
+  name: z.string(),
+});
+const CreateHater = HaterFormSchema.pick({ name: true });
+
 export type State = {
   errors?: {
     haterId?: string[];
@@ -69,15 +74,16 @@ export async function createRecord(prevState: State, formData: FormData) {
 
   try {
     await sql`
-    INSERT INTO record (hater_id, content, status, date)
+    INSERT INTO records (hater_id, content, status, date)
     VALUES (${haterId}, ${content}, ${status}, ${date})
   `;
   } catch (e) {
     return {
-      message: 'Database Error: Failed to Create Invoice.',
+      message: 'Database Error: Failed to Create Record.',
     };
   }
   revalidatePath('/diary/record');
+  revalidatePath('/diary/haters');
   redirect('/diary/record');
 }
 
@@ -90,12 +96,13 @@ export async function updateRecord(id: string, formData: FormData) {
 
   try {
     await sql`
-      UPDATE record
+      UPDATE records
       SET hater_id = ${haterId}, content = ${content}, status = ${status}
       WHERE id = ${id}
     `;
 
     revalidatePath('/diary/record');
+    revalidatePath('/diary/haters');
     redirect('/diary/record');
   } catch (e) {
     return {
@@ -103,15 +110,35 @@ export async function updateRecord(id: string, formData: FormData) {
     };
   }
   revalidatePath('/diary/record');
+  revalidatePath('/diary/haters');
   redirect('/diary/record');
 }
 
 export async function deleteRecord(id: string) {
-  throw new Error('Failed to Delete Record');
+  // throw new Error('Failed to Delete Record');
   try {
-    await sql`DELETE FROM record WHERE id = ${id}`;
+    await sql`DELETE FROM records WHERE id = ${id}`;
     revalidatePath('/diary/record');
+    revalidatePath('/diary/haters');
   } catch (e) {
     return { message: 'Database Error: Failed to Delete Record.' };
   }
+}
+
+export async function createHater(formData: FormData) {
+  const { name } = CreateHater.parse({
+    name: formData.get('name'),
+  });
+  try {
+    await sql`
+    INSERT INTO haters (name)
+    VALUES (${name})
+  `;
+  } catch (e) {
+    return {
+      message: 'Database Error: Failed to Create Hater.',
+    };
+  }
+  revalidatePath('/diary/haters');
+  redirect('/diary/haters');
 }

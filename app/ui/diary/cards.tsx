@@ -8,27 +8,27 @@ import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
 
 const iconMap = {
-  collected: BanknotesIcon,
-  customers: UserGroupIcon,
-  pending: ClockIcon,
-  invoices: InboxIcon,
+  solved: BanknotesIcon,
+  haters: UserGroupIcon,
+  unsolved: ClockIcon,
+  records: InboxIcon,
 };
 
 export default async function CardWrapper() {
   const {
-    numberOfInvoices,
-    numberOfCustomers,
-    totalPaidInvoices,
-    totalPendingInvoices,
+    numberOfRecords,
+    numberOfHaters,
+    totalSolvedRecords,
+    totalUnsolvedRecords,
   } = await fetchCardData();
   return (
     <>
       {/* NOTE: comment in this code when you get to this point in the course */}
 
-      <Card title="已排解" value={totalPaidInvoices} type="collected" />
-      <Card title="待排解" value={totalPendingInvoices} type="pending" />
-      <Card title="情绪总记录" value={numberOfInvoices} type="invoices" />
-      <Card title="仇人总数" value={numberOfCustomers} type="customers" />
+      <Card title="已排解" value={totalSolvedRecords} type="solved" />
+      <Card title="待排解" value={totalUnsolvedRecords} type="unsolved" />
+      <Card title="情绪总记录" value={numberOfRecords} type="records" />
+      <Card title="仇人总数" value={numberOfHaters} type="haters" />
     </>
   );
 }
@@ -40,7 +40,7 @@ export function Card({
 }: {
   title: string;
   value: number | string;
-  type: 'invoices' | 'customers' | 'pending' | 'collected';
+  type: 'records' | 'haters' | 'unsolved' | 'solved';
 }) {
   const Icon = iconMap[type];
 

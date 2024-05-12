@@ -2,23 +2,23 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
-import { LatestInvoice } from '@/app/lib/definitions';
-import { fetchLatestInvoices } from '@/app/lib/data';
+import { LatestRecord } from '@/app/lib/definitions';
+import { fetchLatestRecords } from '@/app/lib/data';
 
-export default async function LatestInvoices() {
-  const latestInvoices = await fetchLatestInvoices();
+export default async function LatestRecords() {
+  const LatestRecords = await fetchLatestRecords();
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        最新情绪事件
+        平台新增情绪记录
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-        NOTE: 新增情绪需要及时排解，请及时与亲友或AI沟通。
+        NOTE: 负面情绪需要及时排解，请及时与亲友或AI沟通。
         <div className="bg-white px-6">
-          {latestInvoices.map((invoice, i) => {
+          {LatestRecords.map((record, i) => {
             return (
               <div
-                key={invoice.id}
+                key={record.id}
                 className={clsx(
                   'flex flex-row items-center justify-between py-4',
                   {
@@ -27,26 +27,16 @@ export default async function LatestInvoices() {
                 )}
               >
                 <div className="flex items-center">
-                  <Image
-                    src={invoice.image_url}
-                    alt={`${invoice.name}'s profile picture`}
-                    className="mr-4 rounded-full"
-                    width={32}
-                    height={32}
-                  />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
-                      {invoice.name}
-                    </p>
-                    <p className="hidden text-sm text-gray-500 sm:block">
-                      {invoice.email}
+                      {record.name}
                     </p>
                   </div>
                 </div>
                 <p
                   className={`${lusitana.className} truncate text-sm font-medium md:text-base`}
                 >
-                  {invoice.amount}
+                  {record.content}
                 </p>
               </div>
             );
