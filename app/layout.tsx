@@ -27,17 +27,16 @@ export default function RootLayout({
   return (
     <html lang="zh_CN">
       <body
-        className={`${inter.className} max-w-screen flex max-h-screen flex-col bg-gray-100 text-gray-800 antialiased`}
+        className={`${inter.className} max-w-screen flex h-screen flex-col overflow-auto bg-gray-100 text-gray-800 antialiased`}
       >
-        <header className="flex w-full flex-row items-center justify-between border-b border-gray-200 bg-white px-4 py-2">
+        <header className="flex flex-col justify-between space-y-2 border-b border-gray-200 bg-white p-4 md:flex-row">
           <GwoLogo />
           <Navbar />
         </header>
-        <main className="flex min-h-screen flex-row divide-x-4 divide-gray-200">
+        <main className="flex grow flex-row content-center justify-start space-x-4 p-4">
           <Claim />
-          <div>{auth}</div>
+          {auth}
           <Suspense fallback={<Loading />}>{children}</Suspense>
-          <Suspense fallback={<Loading />}>{gptbot}</Suspense>
         </main>
       </body>
     </html>
